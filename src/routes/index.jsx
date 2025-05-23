@@ -12,7 +12,6 @@ const router = () => {
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Home />} />
-            {/* <Route path="notes/:id" element={<div>Notes</div>} /> */}
             <Route path="note/edit/:id" element={<NoteEditor />} />
             <Route path="note/create" element={<NoteEditor />} />
           </Route>

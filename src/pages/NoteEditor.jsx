@@ -3,21 +3,18 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import ReactMde from "react-mde";
 import ReactMarkdown from "react-markdown";
 import "react-mde/lib/styles/css/react-mde-all.css";
-import { useNotes } from "../context";
+import { useNotes, ActionTypes } from "../context";
 import db from "../db";
 import { v4 as uuidv4 } from "uuid";
 import { useParams } from "react-router-dom";
-import { ActionTypes } from "../context";
 
 const NoteEditor = () => {
-  console.log("NoteEditor rendered");
   const noteId = useRef(useParams().id);
   const { state, dispatch } = useNotes();
   const [note, setNote] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
-  const [selectedTab, setSelectedTab] = useState("write"); // 'write' or 'preview'
+  const [selectedTab, setSelectedTab] = useState("write");
 
-  // Debounce save function
   const debouncedSave = useCallback(
     debounce(async (currentNote) => {
       setIsSaving(true);
@@ -38,7 +35,6 @@ const NoteEditor = () => {
   );
 
   useEffect(() => {
-    console.log("NoteEditor useEffect");
     if (noteId.current) {
       const foundNote = state.notes.find((n) => n.id === noteId.current);
       if (foundNote) {
@@ -78,6 +74,9 @@ const NoteEditor = () => {
 
   return (
     <div className="note-editor-container">
+      <button className="back-button" onClick={() => window.history.back()}>
+        Back
+      </button>
       <div className="note-editor-header">
         <input
           type="text"

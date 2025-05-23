@@ -20,10 +20,15 @@ const Home = () => {
   const handleDelete = async (id) => {
     try {
       await db.notes.delete(id);
+      await db.deletedNotes.add({ id });
     } catch (error) {
       throw new Error("Error deleting note: " + error.message);
     }
     dispatch({ type: ActionTypes.DELETE_NOTE, payload: id });
+    dispatch({
+      type: ActionTypes.ADD_DELETED_NOTES,
+      payload: id,
+    });
   };
 
   const filteredNotes = state.notes
@@ -54,11 +59,7 @@ const Home = () => {
         <div className="notes-list-container">
           {filteredNotes.length > 0 ? (
             filteredNotes.map((note) => (
-              <div
-                key={note.id}
-                className="note-list-item"
-                onClick={() => navigateToEditor("edit", note.id)}
-              >
+              <div key={note.id} className="note-list-item">
                 <span
                   className={`sync-status ${
                     note.synced ? "synced" : "unsynced"
@@ -66,7 +67,10 @@ const Home = () => {
                 >
                   {note.synced ? "Synced" : "Unsynced"}
                 </span>
-                <div className="note-content-container">
+                <div
+                  className="note-content-container"
+                  onClick={() => navigateToEditor("edit", note.id)}
+                >
                   <h3>{note.title}</h3>
                   <p>{note.content.substring(0, 100)}...</p>
                 </div>

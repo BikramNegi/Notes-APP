@@ -7,7 +7,6 @@ const MainLayout = () => {
   return (
     <div className="app-container">
       <Header />
-      {/* This is where the main content will be rendered */}
       <Outlet />
       <Footer />
     </div>

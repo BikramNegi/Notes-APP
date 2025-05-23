@@ -16,10 +16,12 @@ export const ActionTypes = {
   SET_LOADING: "SET_LOADING",
   SET_ONLINE: "SET_ONLINE",
   SET_SYNCING: "SET_SYNCING",
+  ADD_DELETED_NOTES: "ADD_DELETED_NOTES",
 };
 
 const initialState = {
   notes: [],
+  deletedNotes: [],
   loading: true,
   online: navigator.onLine,
   syncing: false,
@@ -49,6 +51,11 @@ const reducer = (state, action) => {
       return { ...state, online: action.payload };
     case ActionTypes.SET_SYNCING:
       return { ...state, syncing: action.payload };
+    case ActionTypes.ADD_DELETED_NOTES:
+      return {
+        ...state,
+        deletedNotes: [...state.deletedNotes, action.payload],
+      };
     default:
       return state;
   }
