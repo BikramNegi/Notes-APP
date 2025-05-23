@@ -7,6 +7,7 @@ import { useNotes } from "../context";
 import db from "../db";
 import { v4 as uuidv4 } from "uuid";
 import { useParams } from "react-router-dom";
+import { ActionTypes } from "../context";
 
 const NoteEditor = () => {
   console.log("NoteEditor rendered");
@@ -23,8 +24,14 @@ const NoteEditor = () => {
       const updatedAt = new Date().toISOString();
       const updatedNote = { ...currentNote, updatedAt, synced: false };
 
-      await db.notes.put(updatedNote);
-      dispatch({ type: "UPDATE_NOTE", payload: updatedNote });
+      try {
+        await db.notes.put(updatedNote);
+      } catch (error) {
+        setIsSaving(false);
+        throw new Error("Error updating note: " + error.message);
+      }
+
+      dispatch({ type: ActionTypes.UPDATE_NOTE, payload: updatedNote });
       setIsSaving(false);
     }, 500),
     []
@@ -47,8 +54,15 @@ const NoteEditor = () => {
         synced: false,
       };
       setNote(newNote);
-      db.notes.add(newNote);
-      dispatch({ type: "ADD_NOTE", payload: newNote });
+      try {
+        (async () => {
+          db.notes.add(newNote);
+        })();
+      } catch (error) {
+        throw new Error("Error creating note: " + error.message);
+      }
+
+      dispatch({ type: ActionTypes.ADD_NOTE, payload: newNote });
     }
   }, [state.notes, dispatch]);
 
