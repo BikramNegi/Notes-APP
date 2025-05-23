@@ -77,14 +77,22 @@ const NoteEditor = () => {
   if (!note) return <div>Loading...</div>;
 
   return (
-    <div className="note-editor">
-      <input
-        type="text"
-        value={note.title}
-        onChange={(e) => handleChange("title", e.target.value)}
-        className="note-title"
-        placeholder="Note title"
-      />
+    <div className="note-editor-container">
+      <div className="note-editor-header">
+        <input
+          type="text"
+          value={note.title}
+          onChange={(e) => handleChange("title", e.target.value)}
+          className="note-title"
+          placeholder="Note title"
+        />
+
+        <div className="note-status">
+          {isSaving ? "Saving..." : state.online ? "Saved" : "Saved (offline)"}
+          {!note.synced && state.online && " - Not synced"}
+        </div>
+      </div>
+
       <ReactMde
         value={note.content}
         onChange={(value) => handleChange("content", value)}
@@ -96,10 +104,6 @@ const NoteEditor = () => {
         minEditorHeight={400}
         heightUnits="px"
       />
-      <div className="note-status">
-        {isSaving ? "Saving..." : state.online ? "Saved" : "Saved (offline)"}
-        {!note.synced && state.online && " - Not synced"}
-      </div>
     </div>
   );
 };

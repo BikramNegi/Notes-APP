@@ -1,0 +1,135 @@
+.app-container {
+}
+
+header {
+  background-color: #282c34;
+  padding: 1rem;
+  color: white;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+header h1 {
+  font-size: 2rem;
+  margin: 0;
+  cursor: pointer;
+}
+
+footer {
+  background-color: #282c34;
+  padding: 1rem;
+  color: white;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 5;
+}
+
+.home-container {
+  height: calc(100vh - 4rem);
+  width: calc(100vw - 10rem);
+  margin: 7rem auto;
+}
+
+.search-create-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.notes-list-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.notes-list-container > span {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.note-list-item {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 150px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.note-content-container h3 {
+  font-size: 1.2rem;
+  margin: 0.6rem 0;
+  overflow: hidden;
+}
+
+.note-content-container p {
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.note-content-container {
+  height: 100%;
+}
+
+.note-list-item button {
+  background-color: #f26262;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.note-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.note-meta-info span {
+  font-size: 0.6rem;
+}
+
+.sync-status {
+  font-size: 0.7rem;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+
+.Unsynced {
+  color: #888;
+}
+
+.synced {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.note-editor-container {
+  height: calc(100vh - 4rem);
+  width: calc(100vw - 10rem);
+  margin: 7rem auto;
+}
+
+.note-editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}

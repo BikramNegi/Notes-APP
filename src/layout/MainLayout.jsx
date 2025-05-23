@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 
 const MainLayout = () => {
   return (
-    <div>
+    <div className="app-container">
       <Header />
       {/* This is where the main content will be rendered */}
       <Outlet />

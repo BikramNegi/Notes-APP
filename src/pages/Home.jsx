@@ -38,24 +38,27 @@ const Home = () => {
     );
 
   return (
-    <div>
-      <div className="search-bar">
+    <div className="home-container">
+      <div className="search-create-container">
         <input
           type="text"
           placeholder="Search notes..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+
+        <button onClick={() => navigateToEditor("create")}>Create Note</button>
       </div>
-      <button onClick={() => navigateToEditor("create")}>Create Note</button>
+
       {state.notes.length > 0 ? (
-        <ul>
-          {filteredNotes.map((note) => (
-            <li key={note.id} className="note-item">
-              <h3>{note.title}</h3>
-              <p>{note.content.substring(0, 100)}...</p>
-              <div className="note-meta">
-                <span>{new Date(note.updatedAt).toLocaleString()}</span>
+        <div className="notes-list-container">
+          {filteredNotes.length > 0 ? (
+            filteredNotes.map((note) => (
+              <div
+                key={note.id}
+                className="note-list-item"
+                onClick={() => navigateToEditor("edit", note.id)}
+              >
                 <span
                   className={`sync-status ${
                     note.synced ? "synced" : "unsynced"
@@ -63,11 +66,24 @@ const Home = () => {
                 >
                   {note.synced ? "Synced" : "Unsynced"}
                 </span>
-                <button onClick={() => handleDelete(note.id)}>Delete</button>
+                <div className="note-content-container">
+                  <h3>{note.title}</h3>
+                  <p>{note.content.substring(0, 100)}...</p>
+                </div>
+
+                <div className="note-meta">
+                  <div className="note-meta-info">
+                    <span>{new Date(note.updatedAt).toLocaleString()}</span>
+                  </div>
+
+                  <button onClick={() => handleDelete(note.id)}>Delete</button>
+                </div>
               </div>
-            </li>
-          ))}
-        </ul>
+            ))
+          ) : (
+            <span>No notes found with that search term.</span>
+          )}
+        </div>
       ) : (
         <p>No notes available</p>
       )}
