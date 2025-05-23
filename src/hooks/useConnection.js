@@ -4,7 +4,7 @@ import { syncNotes, startSyncService } from '../services/syncService';
 import { ActionTypes, useNotes } from '../context';
 
 export const useConnection = () => {
-    const { dispatch } = useNotes();
+    const { state, dispatch } = useNotes();
 
     useEffect(() => {
         const handleOnline = async () => {
@@ -12,7 +12,16 @@ export const useConnection = () => {
             dispatch({ type: ActionTypes.SET_SYNCING, payload: true });
 
             try {
-                await syncNotes();
+                const result = await syncNotes();
+                if (result) {
+                    dispatch({ type: ActionTypes.SET_SYNCING, payload: false });
+                }
+
+                state.notes.forEach((note) => {
+                    if (!note.synced) {
+                        dispatch({ type: ActionTypes.UPDATE_NOTE, payload: { ...note, synced: true } });
+                    }
+                });
 
                 const cleanup = startSyncService();
 
@@ -27,7 +36,7 @@ export const useConnection = () => {
         };
 
         const handleOffline = () => {
-            dispatch({ type: ActionTypes.SET_SYNCING, payload: false });
+            dispatch({ type: ActionTypes.SET_ONLINE, payload: false });
             dispatch({ type: ActionTypes.SET_SYNCING, payload: false });
         };
 

@@ -1,15 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import { useConnection } from "../hooks/useConnection";
+import { useNotes } from "../context";
 
 const Header = () => {
   const navigate = useNavigate();
-  const { online, syncing } = useConnection();
+  const { state } = useNotes();
   return (
     <header className="header">
       <h1 className="header__title" onClick={() => navigate("/")}>
         Notes App
       </h1>
-      {online ? (
+      {state.online ? (
         <div className="online_status">
           <span className="online">Online</span>
         </div>
@@ -18,7 +18,7 @@ const Header = () => {
           <span className="offline">Offline</span>
         </div>
       )}
-      {syncing && (
+      {state.syncing && (
         <div className="syncing_status">
           <span className="syncing">Syncing...</span>
         </div>

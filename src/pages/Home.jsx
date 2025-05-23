@@ -4,10 +4,13 @@ import { useNavigate } from "react-router-dom";
 import db from "../db";
 import { ActionTypes } from "../context";
 
+import { useConnection } from "../hooks/useConnection";
+
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { state, dispatch } = useNotes();
   const navigate = useNavigate();
+  const { online, syncing } = useConnection();
 
   const navigateToEditor = (type, id = null) => {
     if (type === "create") {
@@ -54,7 +57,7 @@ const Home = () => {
 
         <button onClick={() => navigateToEditor("create")}>Create Note</button>
       </div>
-
+      {syncing && <p>Syncing notes...</p>}
       {state.notes.length > 0 ? (
         <div className="notes-list-container">
           {filteredNotes.length > 0 ? (

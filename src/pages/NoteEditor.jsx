@@ -19,7 +19,7 @@ const NoteEditor = () => {
     debounce(async (currentNote) => {
       setIsSaving(true);
       const updatedAt = new Date().toISOString();
-      const updatedNote = { ...currentNote, updatedAt, synced: false };
+      const updatedNote = { ...currentNote, updatedAt };
 
       try {
         await db.notes.put(updatedNote);
@@ -88,7 +88,11 @@ const NoteEditor = () => {
 
         <div className="note-status">
           {isSaving ? "Saving..." : state.online ? "Saved" : "Saved (offline)"}
-          {!note.synced && state.online && " - Not synced"}
+          {!note.synced && !state.online ? (
+            <span className="not-synced"> - Not synced</span>
+          ) : (
+            <span className="synced"> - synced</span>
+          )}
         </div>
       </div>
 

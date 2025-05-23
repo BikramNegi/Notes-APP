@@ -19,6 +19,7 @@ const syncUnsyncedNotes = async (unsyncedNotes) => {
         } catch (error) {
             if (axios.isAxiosError(error) && error.response?.status === 404) {
                 await axios.post(API_URL, newNote);
+                await db.notes.update(note.id, { synced: true });
             }
         }
         if (result) {
@@ -39,6 +40,7 @@ const syncDeletedNotes = async (deletedNotes) => {
         } catch (error) {
             if (axios.isAxiosError(error) && error.response?.status === 404) {
                 console.log("notes with id not found");
+                await db.deletedNotes.delete(id);
             }
         }
 
