@@ -12,15 +12,17 @@ const syncUnsyncedNotes = async (unsyncedNotes) => {
     for (const note of unsyncedNotes) {
         const getUrl = `${API_URL}/${note.id}`;
         let result = null;
+        let newNote = { ...note, synced: true };
+        console.log("newNote", newNote);
         try {
             result = await axios.get(getUrl);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response?.status === 404) {
-                await axios.post(API_URL, note);
+                await axios.post(API_URL, newNote);
             }
         }
         if (result) {
-            await axios.put(`${API_URL}/${note.id}`, note);
+            await axios.put(`${API_URL}/${note.id}`, newNote);
         }
         await db.notes.update(note.id, { synced: true });
     }
@@ -30,9 +32,7 @@ const syncDeletedNotes = async (deletedNotes) => {
 
     for (const note of deletedNotes) {
         const id = note.id;
-        console.log("sync deleted notes", id);
         const Url = `${API_URL}/${id}`
-        console.log("sync deleted notes", Url);
         let result = null;
         try {
             result = await axios.get(Url);
