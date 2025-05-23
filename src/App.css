@@ -133,3 +133,13 @@ footer {
   align-items: center;
   margin-bottom: 2rem;
 }
+
+.back-button {
+  background-color: #f26262;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
